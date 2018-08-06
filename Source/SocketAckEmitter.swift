@@ -35,6 +35,7 @@ public final class SocketAckEmitter : NSObject {
     // MARK: Properties
 
     /// If true, this handler is expecting to be acked. Call `with(_: SocketData...)` to ack.
+    @objc
     public var expected: Bool {
         return ackNum != -1
     }
@@ -65,6 +66,7 @@ public final class SocketAckEmitter : NSObject {
     /// Call to ack receiving this event.
     ///
     /// - parameter items: An array of items to send when acking. Use `[]` to send nothing.
+    @objc
     public func with(_ items: [Any]) {
         guard ackNum != -1 else { return }
 
@@ -87,6 +89,7 @@ public final class OnAckCallback : NSObject {
     private let items: [Any]
     private weak var socket: SocketIOClient?
 
+    @objc
     init(ackNumber: Int, items: [Any], socket: SocketIOClient) {
         self.ackNumber = ackNumber
         self.items = items
@@ -104,6 +107,7 @@ public final class OnAckCallback : NSObject {
     /// - parameter after: The number of seconds before this emit times out if an ack hasn't been received.
     /// - parameter callback: The callback called when an ack is received, or when a timeout happens.
     ///                       To check for timeout, use `SocketAckStatus`'s `noAck` case.
+    @objc
     public func timingOut(after seconds: Int, callback: @escaping AckCallback) {
         guard let socket = self.socket, ackNumber != -1 else { return }
 
